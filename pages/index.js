@@ -42,9 +42,10 @@ export default class extends React.Component {
     const { pad } = this.state;
     const control1 = this.state['midi.SOFT_LAB.LPD81.CONTROL_CHANGE.1'];
     const control2 = this.state['midi.SOFT_LAB.LPD81.CONTROL_CHANGE.2'];
+    const control3 = this.state['midi.SOFT_LAB.LPD81.CONTROL_CHANGE.3'];
     const color = colors[pad - 1] || ['red', 'green'];
     return (
-      <div>
+      <div style={{transform: `rotate(${control3 ? control3.val : 0}deg)`}}>
         <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: ((control1 && control1.val*5) || '0') + 'px', backgroundColor: color[0]}}></div>
         <div style={{position: 'absolute', top: ((control1 && control1.val*5) || '0') + 'px', left: 0, width: '100%', height: ((control2 && control2.val*5) || '0') + 'px', backgroundColor: color[1]}}></div>
       </div>

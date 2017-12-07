@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+const colors = [['red', 'blue'], ['green', '#ff00ff'], ['#efefef', '#222222'], ['#12e923', 'orange'], ['#32e2f3', 'blue'], ['#982292', '#1288e2'], ['#ef9922', '#1193af']];
+
 export default class extends React.Component {
 
   constructor() {
@@ -23,6 +25,12 @@ export default class extends React.Component {
           const st = {};
           st[data.PSUBSCRIBE[2]] = evt;
           this.setState(st);
+
+          if (data.PSUBSCRIBE[2].indexOf('midi.SOFT_LAB.LPD81.PAD_ON.') == 0) {
+            this.setState({pad: evt.id});
+          }
+        } else {
+          console.log(data);
         }
       } catch (e) {
         console.log(e);
@@ -31,12 +39,14 @@ export default class extends React.Component {
   }
   
   render() {
+    const { pad } = this.state;
     const control1 = this.state['midi.SOFT_LAB.LPD81.CONTROL_CHANGE.1'];
     const control2 = this.state['midi.SOFT_LAB.LPD81.CONTROL_CHANGE.2'];
+    const color = colors[pad - 1] || ['red', 'green'];
     return (
       <div>
-        <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: ((control1 && control1.val*5) || '0') + 'px', backgroundColor: 'red'}}></div>
-        <div style={{position: 'absolute', top: ((control1 && control1.val*5) || '0') + 'px', left: 0, width: '100%', height: ((control2 && control2.val*5) || '0') + 'px', backgroundColor: 'blue'}}></div>
+        <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: ((control1 && control1.val*5) || '0') + 'px', backgroundColor: color[0]}}></div>
+        <div style={{position: 'absolute', top: ((control1 && control1.val*5) || '0') + 'px', left: 0, width: '100%', height: ((control2 && control2.val*5) || '0') + 'px', backgroundColor: color[1]}}></div>
       </div>
     );
   }

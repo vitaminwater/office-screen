@@ -14,7 +14,7 @@ export default class extends React.Component {
     const ws = new WebSocket('ws://node.local:7379/.json');
 
     ws.addEventListener('open', () => {
-      ws.send(JSON.stringify(['PSUBSCRIBE', 'midi.SOFT_LAB.LPD81.*']));
+      ws.send(JSON.stringify(['PSUBSCRIBE', '*']));
     });
 
     ws.addEventListener('message', (data) => {
@@ -48,6 +48,11 @@ export default class extends React.Component {
       <div style={{transform: `rotate(${control3 ? control3.val : 0}deg)`}}>
         <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: ((control1 && control1.val*5) || '0') + 'px', backgroundColor: color[0]}}></div>
         <div style={{position: 'absolute', top: ((control1 && control1.val*5) || '0') + 'px', left: 0, width: '100%', height: ((control2 && control2.val*5) || '0') + 'px', backgroundColor: color[1]}}></div>
+        <div style={{zIndex: 1000, position: 'absolute', top: 0, left: 0, width: '100%', height:'100%', fontFamily: 'HelveticaNeue', fontSize: '1.2em'}}>
+          {
+            Object.keys(this.state).map(k => <div key={k}>{k}: {JSON.stringify(this.state[k])}</div>)
+          }
+        </div>
       </div>
     );
   }
